@@ -19,6 +19,11 @@ class LoginActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+        signUpBtn.setOnClickListener {
+            val myIntent = Intent(mContext, SignUpActivity::class.java)
+            startActivity(myIntent)
+        }
+
         loginBtn.setOnClickListener {
             val inputId = idEdt.text.toString() //아이디가 존재하지 않는다면 ?
             val inputPw = pwEdt.text.toString() //비밀번호가 틀리다면 ?
@@ -49,15 +54,11 @@ class LoginActivity : BaseActivity() {
                              Toast.makeText(mContext,message,Toast.LENGTH_SHORT).show()
                          }
 
-
                      }
 
-
                  }
-
              })
         }
-
     }
 
     override fun setValues() {

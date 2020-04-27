@@ -8,6 +8,7 @@ class MainActivity : BaseActivity() {
 
 
     private lateinit var userName:String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
