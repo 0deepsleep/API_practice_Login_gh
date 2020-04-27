@@ -16,7 +16,7 @@ class ServerUtil {
 //        어느 서버(호스트)로 가야하는지 적어두는 변수.
 //        도메인 (api.naver.com 등) or IP주소 (192.168.0.243:5000) 등
 //        메인 주소를 저장해두는 변수.
-        val BASE_URL = "http://192.168.0.243:5000"
+        val BASE_URL = "http://192.168.10.224:5000/"
 
 //        필요한 변수를 넣는 요령
 //        화면에서 > 서버로 전달해야하는 데이터
@@ -32,13 +32,15 @@ class ServerUtil {
                 .add("login_id", id) //짐넣기 login_id는 저 주소에서 받는 이름.
                 .add("password", pw) //저 링크에서 받겠다는 이름이 password
                 .build() //캐리어닫자
-
+    
+//          화면 이동으로 따지면 Intent 객체를 만드는 것
             val request = Request.Builder() //비행기티켓   request는 okhttp3받기
                 .url(urlStr) //어디로갈래?
                 .post(formBody) //가는방법 (짐첨부?)
 //                .header() //API가 header를 요구하면 추가해야 함.
                 .build() //표출력
-
+    
+//          startActivity처럼 실제로 요청을 날리는 코드.
             client.newCall(request).enqueue(object : Callback { //object 알트 앤터
                 override fun onFailure(call: Call, e: IOException) {
 //                    서버연결 자체를 실패.
@@ -51,7 +53,7 @@ class ServerUtil {
 //                    서버의 응답은 보통 JSON양식으로 가공되어 옴.
 //                    받을 때는 일단 String타입으로 받게 됨. => JSON으로 변환해서 액티비티에 전달.
 
-                    val body = response.body!!.toString()
+                    val body = response.body!!.string()
                     val json = JSONObject(body)
 
                     handler?.onResponse(json)
