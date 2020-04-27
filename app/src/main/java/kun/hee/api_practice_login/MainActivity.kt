@@ -3,6 +3,7 @@ package kun.hee.api_practice_login
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kun.hee.api_practice_login.utils.ServerUtil
 import org.json.JSONObject
@@ -12,6 +13,8 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setupEvents()
+        setValues()
     }
 
     override fun setupEvents() {
@@ -21,12 +24,28 @@ class MainActivity : BaseActivity() {
             val inputPw = pwEdt.text.toString() //비밀번호가 틀리다면 ?
 
 //          서버로 로그인 요청 => ServerUtil클래스 기능 활용
-             ServerUtil.postRequestLogin(mContext, inputId, inputPw, object : ServerUtil.JsonResponseHandler{
+             ServerUtil.postRequestLogin(mContext, inputId, inputPw, object : ServerUtil.JsonResponseHandler {
                  override fun onResponse(json: JSONObject) {
 //                   실제로 응답을 받은 걸 분석해서 => 대응 하는 코드
 
 //                  임시로 서버 응답 확인하기 위한 코드
-                     Log.d("서버응답JSON", json.toString())
+//                     Log.d("서버응답JSON", json.toString())
+
+                     val code = json.getInt("code")
+
+                     if (code == 200) {
+//                         로그인 성공
+                     }
+                     else {
+                         val message = json.getString("message")
+                         runOnUiThread {
+                             Toast.makeText(mContext,message,Toast.LENGTH_SHORT).show()
+                         }
+
+
+                     }
+
+
                  }
 
              })
