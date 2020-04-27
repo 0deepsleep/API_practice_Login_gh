@@ -20,7 +20,7 @@ class ServerUtil {
 
 //        필요한 변수를 넣는 요령
 //        화면에서 > 서버로 전달해야하는 데이터
-        fun postRequestLogin(context: Context, id:String, pw:String, handler: JsonResponseHandler?) {
+        fun postRequestLogin(context: Context, id:String, pw:String, name:String, phone:String, handler: JsonResponseHandler?) {
             val client = OkHttpClient()
 
 //    어떤기능을 수행하러 가는지 주소 완성.
@@ -31,6 +31,8 @@ class ServerUtil {
             val formBody = FormBody.Builder() //캐리어 열자 -> add로 짐넣자
                 .add("login_id", id) //짐넣기 login_id는 저 주소에서 받는 이름.
                 .add("password", pw) //저 링크에서 받겠다는 이름이 password
+                .add("name", name)
+                .add("phone", phone)
                 .build() //캐리어닫자
     
 //          화면 이동으로 따지면 Intent 객체를 만드는 것
@@ -63,5 +65,37 @@ class ServerUtil {
 
         }
 
+
+//      회원가입 기능 별도로 추가 => 액티비티에서 사용
+        fun putRequestSignUp(context : Context, id:String, pw:String, name:String, phone:String, handler: JsonResponseHandler){
+            val client = OkHttpClient()
+            val urlStr = "${BASE_URL}/auth"
+
+            val formBody = FormBody.Builder()
+                .add("login_id",id)
+                .add("password",pw)
+                .add("name",name)
+                .add("phone",phone)
+                .build()
+
+            val request = Request.Builder()
+                .url(urlStr)
+                .put(formBody)
+                .build()
+
+
+    client.newCall(request).enqueue(object:Callback {
+        override fun onFailure(call: Call, e: IOException) {
+
+            e.printStackTrace()
+        }
+
+
+
+
+        }
     }
+
+
+}
 }
